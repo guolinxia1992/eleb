@@ -181,5 +181,7 @@ class ShopController extends Controller
     public function checkShop(Shop $shop)
     {
         //
+        $shop->update(['status'=>1]);
+        return redirect()->route('shops.index')->with('success','已处理');
     }
 }

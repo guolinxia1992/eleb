@@ -61,7 +61,7 @@
                         {{method_field('delete')}}
                         <button title="删除" style="outline: none;border: none;background: none;"><span class="glyphicon glyphicon-trash"></span></button>
                     </form>
-                    <a title="审核" >
+                    <a title="审核" href="{{route('shops.checkShop',[$shop])}}">
                         <span class="glyphicon glyphicon-ok"></span>
                     </a>
                 </td>

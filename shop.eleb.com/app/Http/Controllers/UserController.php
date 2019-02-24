@@ -46,33 +46,48 @@ class UserController extends Controller
         $img = $request->file('shop_img');
         $path = $img->store('public/user');
         //数据无误,保存
-        $shop = new Shop();
-        $shop->shop_category_id = $request->shop_category_id;
-        $shop->shop_name = $request->shop_name;
-        $shop->shop_img = url(Storage::url($path));
-        $shop->brand = $request->brand;
-        $shop->on_time = $request->on_time;
-        $shop->shop_rating = rand(1,5);
-        $shop->fengniao = $request->fengniao;
-        $shop->bao = $request->bao;
-        $shop->piao = $request->piao;
-        $shop->zhun = $request->zhun;
-        $shop->start_send = $request->start_send;
-        $shop->send_cost = $request->send_cost;
-        $shop->notice = $request->notice;
-        $shop->discount = $request->discount;
-        $shop->status = 0;
-        $shop->save();
-        $user = new User();
-        $user->status = 1;
-        $user->name = $request->name;
-        $user->password = Hash::make($request->password);
-        $user->email = $request->email;
-        $user->remember_token = uniqid();
-        $user->shop_id = $shop->id;
-        $user->save();
+        DB::beginTransaction();
+        try{
+            $shop = new Shop();
+            $shop->shop_category_id = $request->shop_category_id;
+            $shop->shop_name = $request->shop_name;
+            $shop->shop_img = url(Storage::url($path));
+            $shop->brand = $request->brand;
+            $shop->on_time = $request->on_time;
+            $shop->shop_rating = rand(1,5);
+            $shop->fengniao = $request->fengniao;
+            $shop->bao = $request->bao;
+            $shop->piao = $request->piao;
+            $shop->zhun = $request->zhun;
+            $shop->start_send = $request->start_send;
+            $shop->send_cost = $request->send_cost;
+            $shop->notice = $request->notice;
+            $shop->discount = $request->discount;
+            $shop->status = 0;
+            $a = $shop->save();
+            $user = new User();
+            $user->status = 1;
+            $user->name = $request->name;
+            $user->password = Hash::make($request->password);
+            $user->email = $request->email;
+            $user->remember_token = uniqid();
+            $user->shop_id = $shop->id;
+            $b = $user->save();
+            if(!$a){
+                throw new \Exception("1");
+            }
+            //更新会员表里面的用户余额
+            if(!$b){
+                throw new \Exception("2");
+            }
+            DB::commit();
+            return redirect()->route('users.index')->with('success','添加成功');
+        }catch(QueryException $exception){
+            DB::rollback();
+            return back()->with('danger','添加失败');
+        }
         //设置提示信息
-        return redirect()->route('users.index')->with('success','添加成功');
+
     }
     public function logout()
     {

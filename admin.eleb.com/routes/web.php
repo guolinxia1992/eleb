@@ -24,12 +24,14 @@ Route::get('/', function () {
 Route::resource('users','UserController');
 Route::resource('shopcategories','ShopCategoryController');
 Route::resource('shops','ShopController');
+Route::get('checkShop/{shop}','ShopController@checkShop')->name('shops.checkShop');
 //管理员路由
 Route::resource('admins','AdminController');
 //登录和注销
 Route::get('login','AdminController@login')->name('login');
 Route::post('login','AdminController@checkLogin')->name('login');
 Route::get('logout','AdminController@logout')->name('logout');
+
 //修改密码
 Route::get('changePwd','AdminController@changePwd')->name('changePwd');
 Route::post('saveNewPwd','AdminController@saveNewPwd')->name('saveNewPwd');

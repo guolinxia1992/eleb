@@ -153,7 +153,7 @@
         <li class="layui-nav-item">
             <a href="javascript:;" style="text-decoration: none;">欢迎您!{{auth()->user()->name}}</a>
             <dl class="layui-nav-child"> <!-- 二级菜单 -->
-                <dd><a onclick="x_admin_show('个人信息','http://www.baidu.com')" style="text-decoration: none;height: 30px;line-height: 30px;">个人信息</a></dd>
+                <dd><a onclick='x_admin_show("个人信息","{{route('users.index')}}")' style="text-decoration: none;height: 30px;line-height: 30px;">个人信息</a></dd>
                 <dd><a data-toggle="modal" data-target="#myModal1" style="text-decoration: none;height: 30px;line-height: 30px;">修改密码</a></dd>
                 <dd><a href="{{route('logout')}}" style="text-decoration: none;height: 30px;line-height: 30px;">退出</a></dd>
             </dl>
