@@ -157,7 +157,7 @@ class UserController extends Controller
             if(auth()->user()->status==1){
                 //验证成功,保存信息到session
 //            User::alert('登陆成功','http://shop.eleb.com/');
-                return redirect()->intended(route('home'))->with('success','登录成功');
+                return redirect()->route('home')->with('success','登录成功');
             }else{
                 return back()->with('danger','账号异常,请联系平台处理');
             }

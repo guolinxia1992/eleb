@@ -133,14 +133,24 @@
     </div>
 </div>
 <ul class="layui-nav left fast-add" lay-filter="">
+    @auth
     <li class="layui-nav-item">
         <a href="javascript:;" style="text-decoration: none;">+新增</a>
         <dl class="layui-nav-child"> <!-- 二级菜单 -->
-            <dd><a onclick="x_admin_show('资讯','http://www.baidu.com')" style="text-decoration: none;height: 30px;line-height: 30px;"><i class="iconfont">&#xe6a2;</i>资讯</a></dd>
-            <dd><a onclick="x_admin_show('图片','http://www.baidu.com')" style="text-decoration: none;height: 30px;line-height: 30px;"><i class="iconfont">&#xe6a8;</i>图片</a></dd>
+            <dd><a onclick='x_admin_show("添加菜品","{{route('menus.create')}}")' style="text-decoration: none;height: 30px;line-height: 30px;"><i class="iconfont">&#xe6a2;</i>菜品</a></dd>
+            <dd><a onclick='x_admin_show("添加菜品分类","{{route('menucategories.create')}}")' style="text-decoration: none;height: 30px;line-height: 30px;"><i class="iconfont">&#xe6a8;</i>菜品分类</a></dd>
             <dd><a onclick='x_admin_show("修改密码","{{route('logout',[auth()->user()])}}")' style="text-decoration: none;height: 30px;line-height: 30px;"><i class="iconfont">&#xe6b8;</i>用户</a></dd>
         </dl>
     </li>
+    <li class="layui-nav-item">
+        <a href="javascript:;" style="text-decoration: none;">查看</a>
+        <dl class="layui-nav-child"> <!-- 二级菜单 -->
+            <dd><a onclick='x_admin_show("菜品列表","{{route('menus.index')}}")' style="text-decoration: none;height: 30px;line-height: 30px;"><i class="iconfont">&#xe6a2;</i>菜品列表</a></dd>
+            <dd><a onclick='x_admin_show("菜品分类列表","{{route('menucategories.index')}}")' style="text-decoration: none;height: 30px;line-height: 30px;"><i class="iconfont">&#xe6a8;</i>菜品分类列表</a></dd>
+            <dd><a onclick='x_admin_show("修改密码","{{route('logout',[auth()->user()])}}")' style="text-decoration: none;height: 30px;line-height: 30px;"><i class="iconfont">&#xe6b8;</i>用户</a></dd>
+        </dl>
+    </li>
+    @endauth
 </ul>
 <ul class="layui-nav right" lay-filter="" >
     <!-- Modal -->

@@ -24,3 +24,10 @@ Route::get('logout','UserController@logout')->name('logout');
 //修改密码
 Route::get('changePwd','UserController@changePwd')->name('changePwd');
 Route::post('saveNewPwd','UserController@saveNewPwd')->name('saveNewPwd');
+
+//菜品分类管理
+Route::resource('menucategories','MenuCategoryController');
+//菜品管理
+Route::resource('menus','MenuController');
+//查看单个分类的所有菜品
+Route::get('menus/{menucategory}/showDetail','MenuController@showDetail')->name('menus.showDetail');
