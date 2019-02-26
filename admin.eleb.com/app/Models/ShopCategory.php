@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 class ShopCategory extends Model
 {
     //设置安全字段
-    protected $fillable = ['name','img','status'];
+    protected $fillable = ['name','img','status','file'];
 
     public function img()
     {

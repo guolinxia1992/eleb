@@ -52,6 +52,10 @@
                        autocomplete="off" class="layui-input" placeholder="">
             </div>
         </div>
+
+
+        <!-- 编辑器容器 -->
+        <script id="container" name="content" type="text/plain"></script>
         <div class="layui-form-item">
             <label for="L_username" class="layui-form-label" style="width: 120px;">
                 <span class="x-red">*</span>描述

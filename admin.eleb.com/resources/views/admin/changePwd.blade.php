@@ -26,7 +26,7 @@
                 <span class="x-red">*</span>旧密码
             </label>
             <div class="layui-input-inline">
-                <input type="password"  name="password" required="" lay-verify=""
+                <input type="password"  name="password"
                        autocomplete="off" class="layui-input" >
             </div>
         </div>
@@ -35,7 +35,7 @@
                 <span class="x-red">*</span>新密码
             </label>
             <div class="layui-input-inline">
-                <input type="password" id="" name="newpassword" required="" lay-verify=""
+                <input type="password"  name="newpassword"
                        autocomplete="off" class="layui-input" >
             </div>
         </div>
@@ -44,7 +44,7 @@
                 <span class="x-red">*</span>确认新密码
             </label>
             <div class="layui-input-inline">
-                <input type="password" id="" name="newpassword1" required="" lay-verify=""
+                <input type="password"  name="newpassword1"
                        autocomplete="off" class="layui-input" >
             </div>
         </div>
@@ -52,7 +52,7 @@
         <div class="layui-form-item">
             <label for="L_repass" class="layui-form-label" style="width: 120px;">
             </label>
-            <button  class="layui-btn" lay-filter="" lay-submit="" type="submit" >
+            <button  class="layui-btn" type="submit" >
                 确认修改
             </button>
         </div>

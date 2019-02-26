@@ -35,3 +35,8 @@ Route::get('logout','AdminController@logout')->name('logout');
 //修改密码
 Route::get('changePwd','AdminController@changePwd')->name('changePwd');
 Route::post('saveNewPwd','AdminController@saveNewPwd')->name('saveNewPwd');
+//活动管理
+Route::resource('activities','ActivityController');
+
+//上传图片
+Route::post('/upload','ShopCategoryController@upload')->name('upload');

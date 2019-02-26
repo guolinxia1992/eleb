@@ -25,7 +25,7 @@ class Menu extends Model
     ];
     public function menuCategory()
     {
-        return $this->belongsTo(MenuCategory::class,'category_id');//'APP\Student'
-        //return Student::find($this->student_id);
+        return $this->belongsTo(MenuCategory::class,'category_id');//'APP\Models\MenuCategory'
+        //return MenuCategory::find($this->category_id);
     }
 }

@@ -22,7 +22,12 @@ class MenuController extends Controller
         $keywords = $request->keywords;
         $price1 = $request->price1;
         $price2 = $request->price2;
-        if($price1 && $price2 && $keywords){
+
+        $wheres = [];
+        if($keywords) $wheres[]=['goods_name','like',"%$keywords%"];
+        if($price1) $wheres[] = ['goods_price','>=',$price1];
+        if($price2) $wheres[] = ['goods_price','<=',$price2];
+        /*if($price1 && $price2 && $keywords){
             $menus = Menu::where('goods_name','like',"%$keywords%")->whereBetween('goods_price',[$price1,$price2])->paginate(3);
         }elseif($keywords){
             $menus = Menu::where('goods_name','like',"%$keywords%")->paginate(3);
@@ -30,7 +35,9 @@ class MenuController extends Controller
             $menus = Menu::whereBetween('goods_price',[$price1,$price2])->paginate(3);
         }else{
             $menus = Menu::paginate(3);
-        }
+        }*/
+        $menus = Menu::where($wheres)->paginate(3);
+        var_dump($menus);exit;
         return view('menu.index',compact('menus'));
     }
 

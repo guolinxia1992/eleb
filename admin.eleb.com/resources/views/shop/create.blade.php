@@ -35,6 +35,10 @@
                        autocomplete="off" class="layui-input">
             </div>
         </div>
+
+
+        <!-- 编辑器容器 -->
+        <script id="container" name="content" type="text/plain"></script>
         <div class="layui-form-item" >
             <label for="L_pass" class="layui-form-label" style="width: 120px;">
                 <span class="x-red">*</span>图片
@@ -142,7 +146,17 @@
                 <span class="x-red">*</span>商家公告
             </label>
             <div class="layui-input-inline">
-                <textarea name="notice" id="" cols="30" rows="10"></textarea>
+                <textarea name="notice" id="" cols="30" rows="10">
+
+                </textarea>
+            @include('vendor.ueditor.assets')
+            <!-- 实例化编辑器 -->
+                <script type="text/javascript">
+                    var ue = UE.getEditor('container');
+                    ue.ready(function() {
+                        ue.execCommand('serverparam', '_token', '{{ csrf_token() }}'); // 设置 CSRF token.
+                    });
+                </script>
             </div>
         </div>
         <div class="layui-form-item">

@@ -39,7 +39,7 @@
                 <td>{{$shopcategory->id}}</td>
                 <td>{{$shopcategory->name}}</td>
                 <td>
-                    <img src="{{$shopcategory->img()}}" alt="无法显示">
+                    <img src="{{$shopcategory->img}}" alt="无法显示">
                 </td>
                 <td>{{$shopcategory->status==1?'显示':'隐藏'}}</td>
                 <td class="td-manage">

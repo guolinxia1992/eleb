@@ -195,6 +195,7 @@ class UserController extends Controller
             ]);
 //            Admin::alert('修改成功,请重新登录',"route('logout')");
 //            session()->flash('success','修改成功,请重新登录');
+            Auth::logout();
             return redirect()->intended(route('login'))->with('success','密码修改成功,请重新登录');
         }else{
             return back()->with('danger','旧密码不正确');
