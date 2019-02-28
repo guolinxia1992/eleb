@@ -36,8 +36,9 @@ class MenuController extends Controller
         }else{
             $menus = Menu::paginate(3);
         }*/
-        $menus = Menu::where($wheres)->paginate(3);
-        var_dump($menus);exit;
+//        var_dump(auth()->user()->shop_id);
+        $menus = Menu::where($wheres)->where('shop_id','=',auth()->user()->shop_id)->paginate(3);
+//        var_dump($menus);exit;
         return view('menu.index',compact('menus'));
     }
 

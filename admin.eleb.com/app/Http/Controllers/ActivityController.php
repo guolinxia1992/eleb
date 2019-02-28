@@ -75,6 +75,7 @@ class ActivityController extends Controller
     {
         //调用视图
         $data=$activity->start_time;
+//        str_replace(' ','T',$data);
         $start_time=substr($data,0,10)."T".substr($data,11,5);
         $end_time=substr($activity->end_time,0,10)."T".substr($activity->end_time,11,5);
         return view('activity.edit',compact('activity','start_time','end_time'));

@@ -24,7 +24,9 @@
     <table class="layui-table">
         <thead>
         <tr>
-            <td></td>
+            <td>
+                <div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i class="layui-icon">&#xe605;</i></div>
+            </td>
             <td>编号</td>
             <td>菜品名称</td>
             <td>评分</td>

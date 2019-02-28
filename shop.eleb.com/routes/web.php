@@ -31,3 +31,6 @@ Route::resource('menucategories','MenuCategoryController');
 Route::resource('menus','MenuController');
 //查看单个分类的所有菜品
 Route::get('menus/{menucategory}/showDetail','MenuController@showDetail')->name('menus.showDetail');
+
+//查看活动页面
+Route::resource('activities','ActivityController');
