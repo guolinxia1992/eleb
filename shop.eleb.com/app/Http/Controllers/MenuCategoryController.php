@@ -52,7 +52,7 @@ class MenuCategoryController extends Controller
         }
         $menucategory->name = $request->name;
 //        $menucategory->type_accumulation =range("a","z",[rand(0,25)]);
-        $menucategory->type_accumulation =$code;
+        $menucategory->type_accumulation =$code.uniqid();
         $menucategory->shop_id = auth()->user()->shop_id;
         $menucategory->description = $request->description;
         $menucategory->is_selected = $request->is_selected;

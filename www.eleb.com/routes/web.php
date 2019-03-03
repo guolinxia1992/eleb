@@ -17,3 +17,13 @@ Route::get('/', function () {
 
 Route::get('/api/businessList','ApiController@businessList');
 Route::get('/api/business','ApiController@business');
+Route::post('/api/regist','ApiController@regist');
+Route::get('/api/sms','ApiController@sms');
+Route::post('/api/checkLogin','ApiController@checkLogin');
+Route::post('/api/address','ApiController@address');
+Route::post('/api/addAddress','ApiController@addAddress');
+Route::get('/api/addressList','ApiController@addressList');
+Route::get('/api/address','ApiController@address');
+Route::post('/api/editAddress','ApiController@editAddress');
+Route::post('/api/addCart','ApiController@addCart');
+Route::get('/api/cart','ApiController@cart');
