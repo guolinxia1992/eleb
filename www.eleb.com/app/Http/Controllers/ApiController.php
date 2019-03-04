@@ -7,7 +7,10 @@ use App\Models\Cart;
 use App\Models\Member;
 use App\Models\Menu;
 use App\Models\MenuCategory;
+use App\Models\Order;
+use App\Models\OrderDetail;
 use App\Models\Shop;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -172,7 +175,7 @@ class ApiController extends Controller
             $cart['goods_name'] = $goods->goods_name;
             $cart['goods_img'] = $goods->goods_img;
             $cart['goods_price'] = $goods->goods_price * $cart->amount;
-            $totalCost += $cart->amount * $cart->goods_price;
+            $totalCost += $cart['goods_price'];
         }
         $datar['goods_list']=$data;
         $datar['totalCost']=$totalCost;
@@ -213,5 +216,137 @@ class ApiController extends Controller
             $addcart->save();
         }
         return ["status"=> "true","message"=> "添加成功"];
+    }
+
+    public function addOrder(Request $request)
+    {
+        //获取配送地址信息
+        $address = Address::find($request->address_id);
+        //获取一条菜品信息
+//        var_dump($address->user_id);exit();
+
+        //计算总价格
+        $carts = Cart::where('user_id','=',$address->user_id)->get();
+        //获取所属shop_id
+        $total =0;
+        foreach($carts as $cart){
+            $shop = Menu::find($cart->goods_id);
+            $total += $shop->goods_price * $cart->amount;
+        }
+        //获取所属shop_id
+        $cart1 = Cart::where('user_id','=',$address->user_id)->get()->first();
+//        var_dump($cart1);exit();
+        $shopid = Menu::find($cart1->goods_id);
+        DB::beginTransaction();
+        try{
+            $order = new Order();
+            $order->shop_id = $shopid->shop_id;
+            $order->user_id = auth()->user()->id;
+            $order->sn = date('Ymd').mt_rand(10000,99999);
+            $order->province = $address->province;
+            $order->city = $address->city;
+            $order->county = $address->county;
+            $order->address = $address->address;
+            $order->tel = $address->tel;
+            $order->name = $address->name;
+            $order->status = 1;
+            $order->out_trade_no = uniqid();
+            $order->total = $total;
+            $order->save();
+            foreach($carts as $cart){
+                $shop = Menu::find($cart->goods_id);
+                $total = $shop->goods_price * $cart->amount;
+                $order_detail = new OrderDetail();
+                $order_detail->goods_id = $cart->goods_id;
+                $order_detail->amount = $cart->amount;
+                $order_detail->goods_name = $shop->goods_name;
+                $order_detail->goods_img = $shop->goods_img;
+                $order_detail->goods_price = $total;
+                $order_detail->order_id = $order->id;
+                $order_detail->save();
+            }
+            DB::commit();
+            return ["status"=> "true","message"=> "添加成功","order_id"=>1];
+        }catch(QueryException $exception){
+            DB::rollBack();
+        }
+    }
+
+    public function order(Request $request)
+    {
+        $orders = Order::find($request->id);
+//        var_dump($orders->id);exit();
+        $order_detail = OrderDetail::where('order_id','=',$request->id)->get()->first();
+        $details = OrderDetail::where('order_id','=',$request->id)->get();
+//        $orders['goods_list'][] = [];
+        foreach($details as $detail){
+            $detail['goods_id'] = $detail->goods_id;
+            $detail['goods_name'] = $detail->goods_name;
+            $detail['goods_img'] = $detail->goods_img;
+            $detail['amount'] = $detail->amount;
+            $detail['goods_price'] = $detail->goods_price;
+        }
+        $menu = Menu::find($order_detail->goods_id);
+        $shop = Shop::find($menu->shop_id);
+        $orders['order_code'] = $orders['sn'];
+        $time = $orders['created_at']->toArray();
+        $orders['order_birth_time'] = $time['formatted'];
+        $orders['order_status'] = $orders['status'];
+        $orders['shop_id'] = $shop['id'];
+        $orders['shop_name'] = $shop['shop_name'];
+        $orders['shop_img'] = $shop['shop_img'];
+        $orders['goods_list'] = $details;
+        $orders['order_address'] = $orders['address'];
+        return $orders;
+    }
+
+    public function orderList(Request $request)
+    {
+        $orders = Order::where('user_id','=',auth()->user()->id)->get();
+        foreach($orders as $order){
+            $order['order_code'] = $order->sn;
+            $time = $order['created_at']->toArray();
+            $order['order_birth_time'] = $time['formatted'];
+            $order['order_status'] = $order->status;
+            $shop = Shop::find($order->shop_id);
+            $order['shop_id'] = $order->shop_id;
+            $order['shop_name'] = $shop->shop_name;
+            $order['shop_img'] = $shop->shop_img;
+            $order['order_price'] = $order->total;
+            $order['order_address'] = $order->address;
+            $goods = OrderDetail::where('order_id','=',$order->id)->get();
+            foreach($goods as $good){
+                $good['goods_id'] = $good->goods_id;
+            }
+            $order['goods_list'] = $goods;
+        }
+        return $orders;
+    }
+
+    public function changePassword(Request $request)
+    {
+        //接收数据验证
+        if(Hash::check($request->oldPassword,\auth()->user()->password)){
+            Member::where('id','=',\auth()->user()->id)->update(['password'=>Hash::make($request->newPassword)]);
+            return ["status"=>"true","message"=>"修改成功"];
+        }else{
+            return ["status"=>"false","message"=>"旧密码错误"];
+        }
+    }
+
+    public function forgetPassword(Request $request)
+    {
+        $capcha = Redis::get($request->tel);
+        $member = Member::where('tel','=',$request->tel)->get();
+        if(count($member)<1){
+            return ["status"=>"false","message"=>"该手机号不存在"];
+        }else{
+            if($capcha != $request->sms){
+                return ["status"=>"false","message"=>"验证码错误"];
+            }else{
+                Member::where('tel','=',$request->tel)->update(['password'=>Hash::make($request->password)]);
+                return ["status"=>"true","message"=>"重置成功"];
+            }
+        }
     }
 }

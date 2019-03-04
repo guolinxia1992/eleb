@@ -27,3 +27,8 @@ Route::get('/api/address','ApiController@address');
 Route::post('/api/editAddress','ApiController@editAddress');
 Route::post('/api/addCart','ApiController@addCart');
 Route::get('/api/cart','ApiController@cart');
+Route::post('/api/addOrder','ApiController@addOrder');
+Route::get('/api/order','ApiController@order');
+Route::get('/api/orderList','ApiController@orderList');
+Route::post('/api/changePassword','ApiController@changePassword');
+Route::post('/api/forgetPassword','ApiController@forgetPassword');
