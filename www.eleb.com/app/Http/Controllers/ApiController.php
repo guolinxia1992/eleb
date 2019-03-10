@@ -266,6 +266,25 @@ class ApiController extends Controller
                 $order_detail->save();
             }
             DB::commit();
+// 短信应用SDK AppID
+            $tel = \auth()->user()->tel;
+            $appid = 1400188032; // 1400开头
+            // 短信应用SDK AppKey
+            $appkey = "e6037df72ed9bfe5604f0c8413445185";
+            // 需要发送短信的手机号码
+            $phoneNumber = $tel;
+            // 短信模板ID，需要在短信应用中申请
+            $templateId = 290627;  // NOTE: 这里的模板ID`7839`只是一个示例，真实的模板ID需要在短信控制台中申请
+            $smsSign = "郭琳夏个人分享";
+            try {
+                $ssender = new SmsSingleSender($appid, $appkey);
+                $params = [];
+                $result = $ssender->sendWithParam("86", $phoneNumber, $templateId,
+                    $params, $smsSign, "", "");  // 签名参数未提供或者为空时，会使用默认签名发送短信
+                return ["status"=> "true","message"=> "订单创建成功"];
+            } catch(\Exception $e) {
+                var_dump($e);
+            }
             return ["status"=> "true","message"=> "添加成功","order_id"=>1];
         }catch(QueryException $exception){
             DB::rollBack();

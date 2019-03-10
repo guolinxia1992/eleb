@@ -40,6 +40,16 @@
                        autocomplete="off" class="layui-input" value="{{$admin->password}}">
             </div>
         </div>
+        <div class="layui-form-item">
+            <label for="L_username" class="layui-form-label" style="width: 120px;">
+                <span class="x-red">*</span>所属角色
+            </label>
+            <div class="layui-input-inline">
+                @foreach($roles as $role)
+                    <input type="checkbox"  name="role[]"  autocomplete="off" class="" value="{{$role->name}}" @if($admin->hasRole($role->name)) checked @endif>{{$role->name}}
+                @endforeach
+            </div>
+        </div>
         {{csrf_field()}}
         {{method_field('patch')}}
         <div class="layui-form-item">

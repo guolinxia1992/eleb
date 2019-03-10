@@ -7,6 +7,8 @@ use App\Models\Shop;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class AdminController extends Controller
 {
@@ -20,7 +22,9 @@ class AdminController extends Controller
     //添加管理员
     public function create()
     {
-        return view('admin.create');
+        $roles = Role::all();
+        $permissions = Permission::all();
+        return view('admin.create',compact('roles','permissions'));
     }
 
     public function store(Request $request)
@@ -40,6 +44,8 @@ class AdminController extends Controller
         $admin->email = $request->email;
         $admin->remember_token = uniqid();
         $admin->save();
+        $admin->syncRoles($request->role);
+        $admin->syncPermissions($request->permission);
         return redirect()->route('admins.index')->with('success','管理员添加成功');
     }
 
@@ -66,6 +72,7 @@ class AdminController extends Controller
 //            'name'=>$request->name,
 //            'password'=>$request->password,
 //        ]));exit;
+
         $this->validate($request,
             ['name'=>'required','password'=>'required'],
             [   'name.required'=>'请输入用户名',
@@ -82,6 +89,7 @@ class AdminController extends Controller
         }else{
             return back()->with('danger','账号或密码不正确');
         }
+//        return redirect()->intended(route('home'))->with('success','登录成功');
     }
     public function changePwd()
     {
@@ -131,8 +139,9 @@ class AdminController extends Controller
     }
     public function edit(Admin $admin)
     {
+        $roles = Role::all();
         //加载页面
-        return view('admin.edit',compact('admin'));
+        return view('admin.edit',compact('admin','roles'));
     }
 
     public function update(Admin $admin,Request $request)
@@ -146,6 +155,11 @@ class AdminController extends Controller
                 'email.email'=>'邮箱格式不正确',
             ]);
         //数据无误,保存
+//        dd($request->role);
+//        $role = new Role();
+//        $role->name = $request->role;
+//        $role->save();
+        $admin->syncRoles($request->role);
         $admin->update(['name'=>$request->name,
             'password'=>Hash::make($request->password),
             'email'=>$request->email,

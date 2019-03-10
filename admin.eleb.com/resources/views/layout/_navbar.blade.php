@@ -125,6 +125,7 @@
             <dd><a href="{{route('logout')}}" style="text-decoration: none;height: 30px;line-height: 30px;">退出</a></dd>
         </dl>
     </li>
+
     @endauth
     <li class="layui-nav-item to-index"><a href="/" style="text-decoration: none;">前台首页</a></li>
 </ul>

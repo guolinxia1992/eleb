@@ -8,7 +8,7 @@
     </div>
     <xblock>
         <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
-        <a href="{{route('admins.create')}}" class="layui-btn" ><i class="layui-icon"></i>添加</a>
+        <a href="{{route('admins.create')}}" class="layui-btn" @if(!(auth()->user()->can('添加'))) style="display: none" @else style="display: inline-block" @endif><i class="layui-icon"></i>添加</a>
         <span class="x-right" style="line-height:40px">共有数据：{{count($admins)}} 条</span>
         @foreach(['success','info','warning','danger'] as $status)
             @if(session()->has($status))
@@ -39,14 +39,17 @@
                 <td>{{$admin->email}}</td>
                 <td>{{$admin->password}}</td>
                 <td class="td-manage">
-                    <a title="编辑" href="{{route('admins.edit',[$admin])}}">
+                    <a title="编辑" href="{{route('admins.edit',[$admin])}}" @if(!(auth()->user()->can('修改'))) style="display: none" @endif>
                         <span class="glyphicon glyphicon-pencil"></span>
                     </a>
-                    <form action="{{route('admins.destroy',[$admin])}}" method="post" style="display: inline;">
-                        {{csrf_field()}}
-                        {{method_field('delete')}}
-                        <button title="删除" style="outline: none;border: none;background: none;"><span class="glyphicon glyphicon-trash"></span></button>
-                    </form>
+                    <div @if(!(auth()->user()->can('删除'))) style="display: none" @else style="display: inline-block" @endif>
+                        <form action="{{route('admins.destroy',[$admin])}}" method="post"  >
+                            {{csrf_field()}}
+                            {{method_field('delete')}}
+                            <button title="删除" style="outline: none;border: none;background: none;"><span class="glyphicon glyphicon-trash"></span></button>
+                        </form>
+                    </div>
+
                 </td>
             </tr>
         @endforeach

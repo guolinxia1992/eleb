@@ -116,6 +116,10 @@
             <dd><a onclick='x_admin_show("菜品列表","{{route('menus.index')}}")' style="text-decoration: none;height: 30px;line-height: 30px;"><i class="iconfont">&#xe6a2;</i>菜品列表</a></dd>
             <dd><a onclick='x_admin_show("菜品分类列表","{{route('menucategories.index')}}")' style="text-decoration: none;height: 30px;line-height: 30px;"><i class="iconfont">&#xe6a8;</i>菜品分类列表</a></dd>
             <dd><a onclick='x_admin_show("查看活动","{{route('activities.index')}}")' style="text-decoration: none;height: 30px;line-height: 30px;"><i class="iconfont">&#xe6b8;</i>活动</a></dd>
+            <dd><a onclick='x_admin_show("订单列表","{{route('orders.index')}}")' style="text-decoration: none;height: 30px;line-height: 30px;"><i class="iconfont">&#xe6b8;</i>订单列表</a></dd>
+            <dd><a onclick='x_admin_show("订单查询","{{route('orders.orderLook')}}")' style="text-decoration: none;height: 30px;line-height: 30px;"><i class="iconfont">&#xe6b8;</i>订单查询</a></dd>
+            <dd><a onclick='x_admin_show("菜品销量统计","{{route('orders.menuLook')}}")' style="text-decoration: none;height: 30px;line-height: 30px;"><i class="iconfont">&#xe6b8;</i>菜品销量统计</a></dd>
+            <dd><a onclick='x_admin_show("抽奖活动","{{route('eventmembers.index')}}")' style="text-decoration: none;height: 30px;line-height: 30px;"><i class="iconfont">&#xe6b8;</i>抽奖活动</a></dd>
         </dl>
     </li>
     @endauth

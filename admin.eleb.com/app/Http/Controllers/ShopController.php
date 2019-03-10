@@ -182,6 +182,19 @@ class ShopController extends Controller
     {
         //
         $shop->update(['status'=>1]);
+        $title = '审核已通过';
+        $content = '<p>
+重要的邮件如何才能让<span style="color: red">对方立刻查看</span>！
+随身邮，可以让您享受随时短信提醒和发送邮件可以短信通知收件人的服务，重要的邮件一个都不能少！</p>';
+    try{
+        \Illuminate\Support\Facades\Mail::send('email.email',compact('title','content'),
+            function($message){
+                $to = '1622744139@qq.com';
+                $message->from(env('MAIL_USERNAME'))->to($to)->subject('饿了吧外卖平台');
+            });
+    }catch (Exception $e){
+        return '邮件发送失败';
+    }
         return redirect()->route('shops.index')->with('success','已处理');
     }
 }
