@@ -31,7 +31,7 @@
                         <a href="" style="color: blue;">忘记密码?</a>
                     </div>
                     <div style="float:right;margin: 8px 0;">
-                        <a href="" style="color: blue;">立即注册</a>
+                        <a href="{{route('admins.create')}}" style="color: blue;">立即注册</a>
                     </div>
                 </div>
                 <div style="width:100%;margin-top: 15px;">
