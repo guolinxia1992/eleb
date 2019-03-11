@@ -6,6 +6,7 @@ use App\Models\Event;
 use App\Models\EventMember;
 use App\Models\EventPrize;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redis;
 
 class EventController extends Controller
 {
@@ -54,6 +55,7 @@ class EventController extends Controller
         $event->signup_num = $request->signup_num;
         $event->is_prize = $request->is_prize;
         $event->save();
+        Redis::set($event->id,$request->signup_num);
         return redirect()->route('events.index')->with('success','添加成功');
     }
     public function edit(Event $event)
